@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pramaan: Internal Project Hub</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        .gradient-text {
+            background: linear-gradient(to right, #4F46E5, #0EA5E9);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .nav-link {
+            transition: all 0.3s;
+            position: relative;
+            padding: 8px;
+            border-radius: 8px;
+        }
+        .nav-link.active, .nav-link:hover {
+            color: #4F46E5;
+            background-color: #EEF2FF;
+        }
+        main section { display: none; }
+        main section.active { display: block; }
+        
+        .phone-mockup {
+            width: 100%;
+            max-width: 300px;
+            height: 580px;
+            border: 16px solid black;
+            border-radius: 36px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.25);
+            overflow: hidden;
+            background: #f7f7f7;
+            margin: auto;
+        }
+        .whatsapp-chat {
+            padding: 10px;
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+            background-color: #E5DDD5;
+        }
+        .chat-bubble {
+            padding: 8px 12px;
+            border-radius: 18px;
+            margin-bottom: 8px;
+            max-width: 80%;
+            font-size: 14px;
+            line-height: 1.4;
+        }
+        .user-bubble { background-color: #DCF8C6; align-self: flex-end; }
+        .bot-bubble { background-color: #FFFFFF; align-self: flex-start; }
+        .typing-indicator span {
+            height: 8px; width: 8px; margin: 0 2px;
+            background-color: #9E9E9E; border-radius: 50%;
+            display: inline-block; animation: bounce 1.3s infinite;
+        }
+        .typing-indicator span:nth-child(2) { animation-delay: 0.2s; }
+        .typing-indicator span:nth-child(3) { animation-delay: 0.4s; }
+        @keyframes bounce { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-6px); } }
+    </style>
+</head>
+<body class="bg-gray-100">
+
+    <div class="flex flex-col md:flex-row min-h-screen bg-white">
+        <!-- Sidebar Navigation -->
+        <aside class="w-full md:w-72 bg-gray-50 border-r border-gray-200 p-6 flex flex-col">
+            <div class="text-3xl font-extrabold mb-10">
+                <span class="gradient-text">Pramaan</span>
+                <span class="block text-sm font-medium text-gray-500">Project Hub</span>
+            </div>
+            <nav class="flex flex-col space-y-2">
+                <a href="#home" class="nav-link text-lg font-semibold text-gray-700 active">Home</a>
+                <a href="#the-why" class="nav-link text-lg font-semibold text-gray-700">Why We're Building This</a>
+                <a href="#the-plan" class="nav-link text-lg font-semibold text-gray-700">The Plan</a>
+                <a href="#prototype" class="nav-link text-lg font-semibold text-gray-700">Live Prototypes</a>
+                <a href="#submission-guide" class="nav-link text-lg font-semibold text-gray-700">PDF Submission Guide</a>
+                <a href="#ready-check" class="nav-link text-lg font-semibold text-gray-700">Are We Ready?</a>
+            </nav>
+            <div class="mt-auto hidden md:block text-sm text-gray-400">
+                <p>&copy; 2024 Pramaan Team</p>
+                <p>GenAI Exchange Hackathon</p>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="flex-1 overflow-y-auto p-6 md:p-10">
+            
+            <section id="home" class="active">
+                <h1 class="text-4xl md:text-5xl font-extrabold text-gray-800 mb-4">Welcome to the Project Hub</h1>
+                <p class="text-lg md:text-xl text-gray-600 mb-8">Our central place for the project plan, prototypes, and submission strategy.</p>
+                <div class="bg-indigo-600 text-white p-8 rounded-xl shadow-lg">
+                    <h2 class="text-2xl md:text-3xl font-bold mb-2">Our Mission</h2>
+                    <p class="text-indigo-100 text-base md:text-lg">To empower every internet user in India to fight misinformation with a powerful, easy-to-use tool powered by AI consensus.</p>
+                </div>
+            </section>
+
+            <section id="the-why">
+                <h1 class="text-4xl md:text-5xl font-extrabold text-gray-800 mb-6">Why We're Building This</h1>
+                <div class="space-y-8">
+                    <div>
+                        <h2 class="text-2xl font-bold text-gray-800 mb-2">The Problem: A Digital Wildfire</h2>
+                        <p class="text-lg text-gray-600">Fake news spreads on platforms like WhatsApp faster than anyone can control it. It causes real-world harm, and there's no fast, reliable, or easy-to-use "fire extinguisher" for the average person.</p>
+                    </div>
+                    <div>
+                        <h2 class="text-2xl font-bold text-gray-800 mb-2">Our Mission: Empower Users</h2>
+                        <p class="text-lg text-gray-600">Our goal is to build that fire extinguisher. We want to give people a simple tool to check information instantly, right where they receive it. This isn't just about saying "true" or "false"—it's about building digital literacy and restoring trust.</p>
+                    </div>
+                </div>
+            </section>
+
+            <section id="the-plan">
+                <h1 class="text-4xl md:text-5xl font-extrabold text-gray-800 mb-6">The Plan: How It Works</h1>
+                <div class="space-y-12">
+                    <div>
+                        <h2 class="text-2xl font-bold mb-4">Our Unique Idea: The "AI Council"</h2>
+                        <p class="text-lg text-gray-600">Instead of relying on one AI, we ask a "council" of different AIs (Gemini, GPT, etc.) for their opinion. This reduces bias and gives us a more reliable answer, like asking multiple experts.</p>
+                    </div>
+                    <div>
+                        <h2 class="text-2xl font-bold mb-4">How the System Connects</h2>
+                        <p class="text-lg text-gray-600 mb-4">Here’s a simple breakdown of the data flow:</p>
+                        <div class="bg-white p-6 rounded-lg shadow-md text-center font-mono text-sm md:text-base space-y-2">
+                            <p><strong class="text-indigo-600">1. User's WhatsApp:</strong> Sends a message to our number.</p>
+                            <p class="font-bold">&darr;</p>
+                            <p><strong class="text-indigo-600">2. Python on Google Cloud:</strong> A small program receives the message.</p>
+                            <p class="font-bold">&darr;</p>
+                            <p><strong class="text-indigo-600">3. Gemini (The Director):</strong> Creates a clear question and sends it to our "AI Council".</p>
+                            <p class="font-bold">&darr;</p>
+                            <p><strong class="text-indigo-600">4. Gemini (The Judge):</strong> Collects all answers, finds the consensus, and writes a simple final report.</p>
+                            <p class="font-bold">&darr;</p>
+                            <p><strong class="text-indigo-600">5. User's WhatsApp:</strong> Receives the final, easy-to-read report.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="prototype">
+                <h1 class="text-4xl md:text-5xl font-extrabold text-gray-800 mb-6">Live Prototypes</h1>
+                <p class="text-lg md:text-xl text-gray-600 mb-8">This is how our final product will look and feel on both WhatsApp and our mobile app.</p>
+                <div class="bg-white p-6 md:p-8 rounded-xl shadow-lg">
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-12">
+                        <!-- WhatsApp Prototype -->
+                        <div class="flex flex-col items-center">
+                            <h3 class="text-2xl font-bold mb-4">1. The WhatsApp Bot</h3>
+                            <div class="phone-mockup">
+                                <div class="whatsapp-chat" id="whatsapp-chat-container">
+                                    <div class="chat-bubble bot-bubble">Hi! Forward any message to me for a quick check.</div>
+                                </div>
+                            </div>
+                            <button id="simulate-whatsapp" class="mt-4 bg-green-500 text-white font-bold py-2 px-6 rounded-lg hover:bg-green-600 transition">Simulate a Check</button>
+                        </div>
+                        <!-- App Prototype -->
+                        <div class="flex flex-col items-center">
+                            <h3 class="text-2xl font-bold mb-4">2. The Mobile App</h3>
+                            <div class="phone-mockup bg-white p-4">
+                                <h2 class="text-2xl font-bold text-center gradient-text">Pramaan</h2>
+                                <p class="text-center text-gray-500 text-sm mb-4">Paste a link or text to verify</p>
+                                <textarea class="w-full h-24 p-2 border rounded-lg text-sm" placeholder="Paste suspicious text here..."></textarea>
+                                <button class="w-full mt-2 bg-indigo-600 text-white font-bold py-3 rounded-lg">Verify Now</button>
+                                <div class="mt-6">
+                                    <h3 class="font-bold text-gray-800">Recent History</h3>
+                                    <div class="mt-2 p-3 bg-red-50 border border-red-200 rounded-lg">
+                                        <p class="font-bold text-red-700">❌ False</p>
+                                        <p class="text-sm text-gray-600 truncate">Claim: "New 2000 rupee notes have GPS chips..."</p>
+                                    </div>
+                                    <div class="mt-2 p-3 bg-green-50 border border-green-200 rounded-lg">
+                                        <p class="font-bold text-green-700">✅ True</p>
+                                        <p class="text-sm text-gray-600 truncate">Claim: "RBI announces new policy update..."</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="submission-guide">
+                <h1 class="text-4xl md:text-5xl font-extrabold text-gray-800 mb-6">PDF Submission Guide</h1>
+                <p class="text-lg md:text-xl text-gray-600 mb-8">A page-by-page guide for filling out the official hackathon PDF. Let's get this right.</p>
+                <div class="space-y-8">
+                    <!-- Page 1 -->
+                    <div class="bg-white p-5 rounded-lg shadow">
+                        <h3 class="text-2xl font-bold text-indigo-600">Page 1: Title Page</h3>
+                        <p class="text-gray-700 mt-2">This is the first impression. Keep it clean and professional.</p>
+                        <div class="mt-3 p-4 bg-gray-100 rounded-md border">
+                            <p><strong>Team Name:</strong> [Our Team Name]</p>
+                            <p><strong>Team Leader Name:</strong> [Leader's Name]</p>
+                            <p><strong>Problem Statement:</strong> Select "AI-Powered Tool for Combating Misinformation" from the dropdown.</p>
+                        </div>
+                    </div>
+                    <!-- Page 2 -->
+                    <div class="bg-white p-5 rounded-lg shadow">
+                        <h3 class="text-2xl font-bold text-indigo-600">Page 2: Brief about the prototype</h3>
+                        <p class="text-gray-700 mt-2">This is our elevator pitch. It should be short, clear, and powerful.</p>
+                        <div class="mt-3 p-4 bg-gray-100 rounded-md border">
+                            <strong>Content to add:</strong>
+                            <p class="mt-1">Pramaan is a WhatsApp bot and mobile app that fights misinformation in India. It uses a unique "AI Council" (multiple AI models like Gemini, GPT) to instantly analyze suspicious content. Instead of a simple true/false, it provides a reliable verdict with a simple explanation, teaching users how to spot fake news and restoring trust online.</p>
+                        </div>
+                    </div>
+                    <!-- Page 3 -->
+                    <div class="bg-white p-5 rounded-lg shadow">
+                        <h3 class="text-2xl font-bold text-indigo-600">Page 3: Opportunity & USP</h3>
+                        <p class="text-gray-700 mt-2">Here we explain why our idea is a winner. We need to answer three questions.</p>
+                        <div class="mt-3 p-4 bg-gray-100 rounded-md border space-y-2">
+                            <p><strong>1. How is it different?</strong> We use an "AI Council" for higher accuracy, not a single AI. We also focus on *educating* the user, not just giving a verdict.</p>
+                            <p><strong>2. How will it solve the problem?</strong> It's on WhatsApp, where the problem is biggest. It's fast, free, and easy, so anyone can use it to stop rumors from spreading.</p>
+                            <p><strong>3. What is the USP?</strong> Our "AI Council" approach provides the most reliable and unbiased results. Our focus on user education builds long-term digital literacy.</p>
+                        </div>
+                    </div>
+                    <!-- Page 4 -->
+                     <div class="bg-white p-5 rounded-lg shadow">
+                        <h3 class="text-2xl font-bold text-indigo-600">Page 4: List of Features</h3>
+                        <p class="text-gray-700 mt-2">List our key features with simple icons.</p>
+                        <div class="mt-3 p-4 bg-gray-100 rounded-md border">
+                            <ul class="list-disc list-inside">
+                                <li>Instant Verification on WhatsApp & App</li>
+                                <li>High-Accuracy "AI Council" Engine</li>
+                                <li>Simple Verdicts (True/False/Uncertain)</li>
+                                <li>"Why it's fake" Explanations</li>
+                                <li>Source & Evidence Links</li>
+                            </ul>
+                            <p class="mt-2"><strong>Action:</strong> We need to create a simple graphic with these points and icons.</p>
+                        </div>
+                    </div>
+                    <!-- Page 5 & 7 -->
+                     <div class="bg-white p-5 rounded-lg shadow">
+                        <h3 class="text-2xl font-bold text-indigo-600">Page 5 & 7: Process Flow & Architecture</h3>
+                        <p class="text-gray-700 mt-2">We need two diagrams here. They should be simple and clear.</p>
+                        <div class="mt-3 p-4 bg-gray-100 rounded-md border space-y-4">
+                            <div>
+                                <strong>1. Process Flow Diagram (for Page 5):</strong> Shows the user journey.
+                                <p class="font-mono text-sm mt-1">User sends message &rarr; System receives &rarr; AI Council analyzes &rarr; System generates report &rarr; User receives report</p>
+                            </div>
+                            <div>
+                                <strong>2. Architecture Diagram (for Page 7):</strong> Shows the technology.
+                                <p class="font-mono text-sm mt-1">WhatsApp API &rarr; Google Cloud Function (Python) &rarr; [Gemini, GPT, Perplexity APIs] &rarr; Google Cloud Function (Python) &rarr; Firestore (Database)</p>
+                                <p class="mt-2"><strong>Action:</strong> Create clean diagrams for both flows using a tool like Miro or Excalidraw.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Page 6 -->
+                    <div class="bg-white p-5 rounded-lg shadow">
+                        <h3 class="text-2xl font-bold text-indigo-600">Page 6: Wireframes/Mock diagrams</h3>
+                        <p class="text-gray-700 mt-2">This is where we show what our product looks like.</p>
+                        <div class="mt-3 p-4 bg-gray-100 rounded-md border">
+                            <p><strong>Action:</strong> Take screenshots of the two prototypes from our "Live Prototypes" page and add them here. One for the WhatsApp bot and one for the mobile app.</p>
+                        </div>
+                    </div>
+                    <!-- Page 8 -->
+                    <div class="bg-white p-5 rounded-lg shadow">
+                        <h3 class="text-2xl font-bold text-indigo-600">Page 8: Technologies to be used</h3>
+                        <p class="text-gray-700 mt-2">A simple list of the technologies we will use.</p>
+                        <div class="mt-3 p-4 bg-gray-100 rounded-md border">
+                            <p><strong>Cloud Platform:</strong> Google Cloud (Cloud Functions, Firestore, Vertex AI)</p>
+                            <p><strong>Backend:</strong> Python</p>
+                            <p><strong>AI Models:</strong> Google Gemini, OpenAI GPT, Perplexity API</p>
+                            <p><strong>Interface:</strong> WhatsApp Business API</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+            <section id="ready-check">
+                <h1 class="text-4xl md:text-5xl font-extrabold text-gray-800 mb-6">Are We Ready?</h1>
+                <p class="text-lg md:text-xl text-gray-600 mb-8">A final checklist to make sure our team is aligned and ready to win.</p>
+                <div class="bg-white p-8 rounded-lg shadow-lg space-y-6">
+                    <div class="flex items-center">
+                        <input type="checkbox" class="h-6 w-6 text-indigo-600 rounded border-gray-300 focus:ring-indigo-500" id="check1">
+                        <label for="check1" class="ml-3 text-lg text-gray-800">Does everyone understand the "AI Council" idea?</label>
+                    </div>
+                    <div class="flex items-center">
+                        <input type="checkbox" class="h-6 w-6 text-indigo-600 rounded border-gray-300 focus:ring-indigo-500" id="check2">
+                        <label for="check2" class="ml-3 text-lg text-gray-800">Is everyone clear on their tasks for the PDF submission?</label>
+                    </div>
+                    <div class="flex items-center">
+                        <input type="checkbox" class="h-6 w-6 text-indigo-600 rounded border-gray-300 focus:ring-indigo-500" id="check3">
+                        <label for="check3" class="ml-3 text-lg text-gray-800">Are the diagrams and mockups ready to be added to the PDF?</label>
+                    </div>
+                    <div class="mt-8 pt-6 border-t">
+                        <h3 class="text-2xl font-bold text-center text-green-600">Let's build this! 🚀</h3>
+                    </div>
+                </div>
+            </section>
+
+        </main>
+    </div>
+
+    <script>
+        const navLinks = document.querySelectorAll('.nav-link');
+        const sections = document.querySelectorAll('main section');
+
+        function updateView() {
+            const hash = window.location.hash || '#home';
+            navLinks.forEach(link => link.classList.toggle('active', link.getAttribute('href') === hash));
+            sections.forEach(section => section.classList.toggle('active', '#' + section.id === hash));
+            window.scrollTo(0, 0);
+        }
+        
+        window.addEventListener('hashchange', updateView);
+        window.addEventListener('DOMContentLoaded', updateView);
+
+        const simulateBtn = document.getElementById('simulate-whatsapp');
+        const chatContainer = document.getElementById('whatsapp-chat-container');
+
+        simulateBtn.addEventListener('click', () => {
+            simulateBtn.disabled = true;
+            simulateBtn.textContent = 'Checking...';
+            chatContainer.innerHTML = `<div class="chat-bubble bot-bubble">Hi! Forward any message to me for a quick check.</div>`;
+
+            setTimeout(() => {
+                const userMessage = document.createElement('div');
+                userMessage.className = 'chat-bubble user-bubble';
+                userMessage.textContent = 'Hey, is this true? "Govt is giving free laptops to all students"';
+                chatContainer.appendChild(userMessage);
+                chatContainer.scrollTop = chatContainer.scrollHeight;
+            }, 500);
+
+            setTimeout(() => {
+                const typing = document.createElement('div');
+                typing.className = 'chat-bubble bot-bubble';
+                typing.innerHTML = '<div class="typing-indicator" style="display: flex;"><span></span><span></span><span></span></div>';
+                chatContainer.appendChild(typing);
+                chatContainer.scrollTop = chatContainer.scrollHeight;
+            }, 1500);
+
+            setTimeout(() => {
+                document.querySelector('.typing-indicator').parentElement.remove();
+                const verdict = document.createElement('div');
+                verdict.className = 'chat-bubble bot-bubble';
+                verdict.innerHTML = `
+                    <strong style="color: #DC2626;">❌ False</strong><br>
+                    <strong>Reason:</strong> This is a common scam used to collect personal data. There is no such official government scheme.<br>
+                    <strong>Source:</strong> Official Govt. Press Releases.
+                `;
+                chatContainer.appendChild(verdict);
+                chatContainer.scrollTop = chatContainer.scrollHeight;
+                simulateBtn.disabled = false;
+                simulateBtn.textContent = 'Simulate Another Check';
+            }, 4000);
+        });
+    </script>
+
+</body>
+</html>
