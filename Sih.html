@@ -148,6 +148,14 @@
             background-color: white;
             flex-shrink: 0;
         }
+        .role-btn {
+            transition: all 0.2s ease-in-out;
+        }
+        .role-btn.selected {
+            background-color: #38A169 !important; /* green-600 */
+            color: white !important;
+            border-color: #38A169 !important;
+        }
     </style>
 </head>
 <body class="antialiased">
@@ -157,6 +165,8 @@
         <nav class="container mx-auto px-6 py-4 flex justify-between items-center">
             <div class="text-2xl font-bold text-green-800">🌿 AyurTrace</div>
             <div class="hidden md:flex space-x-8">
+                <a href="#home" class="text-gray-600 hover:text-green-700">Home</a>
+                <a href="#team" class="text-gray-600 hover:text-green-700">Our Team</a>
                 <a href="#how-it-works" class="text-gray-600 hover:text-green-700">How It Works</a>
                 <a href="#farmer-dapp" class="text-gray-600 hover:text-green-700">Farmer DApp</a>
                 <a href="#why-blockchain" class="text-gray-600 hover:text-green-700">Why Blockchain?</a>
@@ -177,6 +187,36 @@
             </a>
         </div>
     </main>
+    
+    <!-- Team Section -->
+    <section id="team" class="py-20 md:py-28">
+        <div class="container mx-auto px-6">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl md:text-4xl font-bold text-gray-800">Meet the Team & Our Mission</h2>
+                <div class="mt-6 max-w-3xl mx-auto">
+                    <p class="text-lg text-gray-600 italic">Our Problem Statement:</p>
+                    <p class="mt-2 text-lg text-gray-700">"Develop a blockchain-based system for botanical traceability of Ayurvedic herbs, including geo-tagging from the point of collection (farmers/wild collectors) to the final Ayurvedic formulation label."</p>
+                </div>
+            </div>
+
+            <h3 class="text-2xl font-bold text-center mb-10">Technologies & Learning Path</h3>
+            <div class="flex flex-wrap justify-center gap-4 mb-16 text-center">
+                <span class="bg-gray-200 text-gray-800 px-4 py-2 rounded-full font-semibold">Hyperledger Fabric (Blockchain)</span>
+                <span class="bg-gray-200 text-gray-800 px-4 py-2 rounded-full font-semibold">Go / Node.js (Smart Contracts)</span>
+                <span class="bg-gray-200 text-gray-800 px-4 py-2 rounded-full font-semibold">Flutter (Mobile DApp)</span>
+                <span class="bg-gray-200 text-gray-800 px-4 py-2 rounded-full font-semibold">React.js (Web Portal)</span>
+                <span class="bg-gray-200 text-gray-800 px-4 py-2 rounded-full font-semibold">Firebase Firestore (Real-time DB)</span>
+                <span class="bg-gray-200 text-gray-800 px-4 py-2 rounded-full font-semibold">UI/UX Design</span>
+            </div>
+
+            <h3 class="text-2xl font-bold text-center mb-4">Assign Roles</h3>
+            <p class="text-center text-gray-500 mb-10">Click on a role to assign it. Selections are saved and shared in real-time.</p>
+
+            <div id="team-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Team member cards will be dynamically populated here -->
+            </div>
+        </div>
+    </section>
 
     <!-- How It Works - Animated Timeline -->
     <section id="how-it-works" class="py-20 md:py-28 bg-white">
@@ -598,8 +638,33 @@
             <p class="mt-2 text-gray-400">A Ministry of Ayush Initiative for a Transparent Future.</p>
         </div>
     </footer>
+    
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+        import { getAuth, signInAnonymously, signInWithCustomToken } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+        import { getFirestore, doc, setDoc, collection, onSnapshot } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
-    <script>
+        // --- Firebase Initialization ---
+        const appId = typeof __app_id !== 'undefined' ? __app_id : 'ayurtrace-default';
+        const firebaseConfig = typeof __firebase_config !== 'undefined' ? JSON.parse(__firebase_config) : { apiKey: "DEMO", authDomain: "DEMO", projectId: "DEMO" };
+        const initialAuthToken = typeof __initial_auth_token !== 'undefined' ? __initial_auth_token : null;
+
+        let db;
+        try {
+            const app = initializeApp(firebaseConfig);
+            const auth = getAuth(app);
+            db = getFirestore(app);
+
+            if (initialAuthToken) {
+                await signInWithCustomToken(auth, initialAuthToken);
+            } else {
+                await signInAnonymously(auth);
+            }
+        } catch (error) {
+            console.error("Firebase initialization failed:", error);
+            // Add a user-facing error message if needed
+        }
+
         document.addEventListener('DOMContentLoaded', () => {
             // --- Intersection Observer for fade-in animations ---
             const observer = new IntersectionObserver((entries) => {
@@ -698,10 +763,8 @@
 
             const generateStoryButton = document.getElementById('generate-story-button');
             const farmerStoryText = document.getElementById('farmer-story-text');
-            const originalStory = farmerStoryText.innerHTML;
-
-            // Helper to show loading state on a button
-            const showLoading = (button, text = '') => {
+            
+            const showLoading = (button) => {
                 button.disabled = true;
                 button.originalText = button.innerHTML;
                 button.innerHTML = `<div class="loader"></div>`;
@@ -712,7 +775,6 @@
                 button.innerHTML = button.originalText;
             };
             
-            // Generic function to call Gemini API
             async function callGemini(prompt) {
                 const payload = { contents: [{ parts: [{ text: prompt }] }] };
                 try {
@@ -721,18 +783,15 @@
                         headers: { 'Content-Type': 'application/json' },
                         body: JSON.stringify(payload)
                     });
-                    if (!response.ok) {
-                        throw new Error(`API call failed with status: ${response.status}`);
-                    }
+                    if (!response.ok) throw new Error(`API call failed: ${response.status}`);
                     const result = await response.json();
-                    return result.candidates?.[0]?.content?.parts?.[0]?.text || "Sorry, I couldn't get a response. Please try again.";
+                    return result.candidates?.[0]?.content?.parts?.[0]?.text || "Sorry, I couldn't get a response.";
                 } catch (error) {
-                    console.error("Gemini API call error:", error);
-                    return "An error occurred while contacting the AI. Please check the console for details.";
+                    console.error("Gemini API error:", error);
+                    return "An error occurred while contacting the AI.";
                 }
             }
             
-            // Feature 1: Ask about the herb
             askHerbButton.addEventListener('click', async () => {
                 const question = herbQuestionInput.value.trim();
                 if (!question) {
@@ -742,35 +801,94 @@
                 }
                 showLoading(askHerbButton);
                 herbAnswerDiv.classList.add('hidden');
-                const prompt = `As an expert in Ayurveda, answer the following question about Ashwagandha in a concise and easy-to-understand way for a consumer: "${question}"`;
+                const prompt = `As an expert in Ayurveda, answer this consumer question about Ashwagandha concisely: "${question}"`;
                 const answer = await callGemini(prompt);
-                herbAnswerDiv.innerHTML = answer.replace(/\n/g, '<br>'); // Basic formatting
+                herbAnswerDiv.innerHTML = answer.replace(/\n/g, '<br>');
                 herbAnswerDiv.classList.remove('hidden');
                 hideLoading(askHerbButton);
             });
 
-            // Feature 2: Suggest a Recipe
             suggestRecipeButton.addEventListener('click', async () => {
                 showLoading(suggestRecipeButton);
                 recipeSuggestionDiv.classList.add('hidden');
-                const prompt = "Generate a simple and healthy recipe using Ashwagandha powder. Provide a name, a short description, a list of ingredients, and step-by-step instructions. Format the response with clear headings (e.g., **Name:**, **Ingredients:**).";
+                const prompt = "Generate a simple, healthy recipe using Ashwagandha powder. Provide a name, short description, ingredients, and instructions. Format with headings like **Name:**.";
                 const recipe = await callGemini(prompt);
-                recipeSuggestionDiv.innerHTML = recipe
-                    .replace(/\*\*(.*?)\*\*/g, '<strong class="font-semibold text-gray-800">$1</strong>') // Bold headings
-                    .replace(/\n/g, '<br>');
+                recipeSuggestionDiv.innerHTML = recipe.replace(/\*\*(.*?)\*\*/g, '<strong class="font-semibold text-gray-800">$1</strong>').replace(/\n/g, '<br>');
                 recipeSuggestionDiv.classList.remove('hidden');
                 hideLoading(suggestRecipeButton);
             });
 
-            // Feature 3: Generate Farmer's Story
             generateStoryButton.addEventListener('click', async () => {
                 showLoading(generateStoryButton);
-                const prompt = "Based on the following information: {Collector Group: 'Aravalli Hills Herbal Cooperative', Location: 'Udaipur District, Rajasthan', Dedication: 'preserving traditional farming methods and protecting biodiversity'}, write a short, engaging, and heartfelt story (about 100 words) about a day in the life of a farmer from this cooperative. Make it sound authentic and personal.";
+                const prompt = "Write a short, heartfelt story (100 words) about a farmer from the 'Aravalli Hills Herbal Cooperative' in Rajasthan, who is dedicated to traditional farming.";
                 const story = await callGemini(prompt);
                 farmerStoryText.innerHTML = story.replace(/\n/g, '<br>');
                 hideLoading(generateStoryButton);
             });
 
+            // --- Team Role Selection Logic ---
+            const teamGrid = document.getElementById('team-grid');
+            const teamMembers = ['Harshita', 'Charvi', 'Kritvi', 'Tarshit', 'Krishna', 'Ranveer'];
+            const roles = ['Blockchain', 'Frontend', 'Backend', 'UI/UX', 'Project Lead'];
+
+            const renderTeamCards = () => {
+                teamGrid.innerHTML = '';
+                teamMembers.forEach(name => {
+                    const card = document.createElement('div');
+                    card.className = 'bg-white p-6 rounded-lg shadow-lg text-center';
+                    card.innerHTML = `
+                        <img src="https://placehold.co/100x100/E2E8F0/4A5568?text=${name.charAt(0)}" alt="${name}" class="w-24 h-24 mx-auto rounded-full mb-4">
+                        <h4 class="text-xl font-bold">${name}</h4>
+                        <div class="mt-4 flex flex-wrap justify-center gap-2" data-member="${name}">
+                            ${roles.map(role => `<button class="role-btn text-sm bg-white hover:bg-gray-100 text-gray-800 font-semibold py-1 px-3 border border-gray-300 rounded-full" data-role="${role}">${role}</button>`).join('')}
+                        </div>
+                    `;
+                    teamGrid.appendChild(card);
+                });
+            };
+
+            const updateUIRoles = (teamRolesData) => {
+                teamMembers.forEach(name => {
+                    const memberData = teamRolesData.find(doc => doc.id === name);
+                    const selectedRole = memberData ? memberData.role : null;
+                    const buttons = document.querySelectorAll(`#team-grid [data-member="${name}"] .role-btn`);
+                    buttons.forEach(btn => {
+                        btn.classList.toggle('selected', btn.dataset.role === selectedRole);
+                    });
+                });
+            };
+
+            async function saveRole(memberName, role) {
+                if (!db) {
+                    console.error("Firestore is not initialized.");
+                    return;
+                }
+                const docRef = doc(db, `/artifacts/${appId}/public/data/team_roles`, memberName);
+                try {
+                    await setDoc(docRef, { role: role }, { merge: true });
+                } catch (error) {
+                    console.error("Error saving role:", error);
+                }
+            }
+
+            if (db) {
+                 renderTeamCards();
+                const rolesCollectionRef = collection(db, `/artifacts/${appId}/public/data/team_roles`);
+                onSnapshot(rolesCollectionRef, (snapshot) => {
+                    const teamRolesData = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+                    updateUIRoles(teamRolesData);
+                });
+
+                teamGrid.addEventListener('click', (e) => {
+                    if (e.target.matches('.role-btn')) {
+                        const memberName = e.target.parentElement.dataset.member;
+                        const role = e.target.dataset.role;
+                        saveRole(memberName, role);
+                    }
+                });
+            } else {
+                teamGrid.innerHTML = '<p class="text-center text-red-500 col-span-full">Could not connect to the database to load team roles.</p>';
+            }
         });
     </script>
 </body>
