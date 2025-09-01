@@ -1,0 +1,778 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AyurTrace - Blockchain Traceability for Ayurveda</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #FEFCF3;
+            color: #4A5568;
+        }
+        h1, h2, h3 {
+            font-family: 'Playfair Display', serif;
+        }
+        .hero-bg {
+            background-color: #F0EBE3;
+            background-image:
+                radial-gradient(at 0% 0%, hsla(22, 70%, 75%, 0.1) 0px, transparent 50%),
+                radial-gradient(at 98% 95%, hsla(140, 70%, 75%, 0.1) 0px, transparent 50%);
+        }
+        .fade-in {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+        }
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -31px;
+            top: 18px;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background-color: #fff;
+            border: 4px solid #81C784;
+            z-index: 1;
+        }
+        .timeline-line {
+            position: absolute;
+            left: -22px;
+            top: 18px;
+            bottom: -18px;
+            width: 2px;
+            background-color: #A5D6A7;
+        }
+        
+        /* Blockchain Animation */
+        .blockchain-block {
+            transition: all 0.5s ease-in-out;
+            border: 2px solid #4CAF50;
+        }
+        .blockchain-chain {
+            height: 4px;
+            background-color: #4CAF50;
+            transition: width 0.5s ease-in-out;
+            width: 0;
+        }
+        .blockchain-container.animate .blockchain-chain {
+            width: 64px; /* lg:w-16 */
+        }
+        .tamper-animation .tampered-block {
+            background-color: #EF5350 !important;
+            border-color: #D32F2F !important;
+            transform: scale(1.05);
+        }
+        .tamper-animation .broken-chain {
+            background: repeating-linear-gradient(45deg, #D32F2F, #D32F2F 5px, #EF5350 5px, #EF5350 10px);
+        }
+        .pulsing-dot {
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background-color: #FF7043;
+            box-shadow: 0 0 0 0 rgba(255, 112, 67, 1);
+            transform: scale(1);
+            animation: pulse 2s infinite;
+        }
+        @keyframes pulse {
+            0% {
+                transform: scale(0.95);
+                box-shadow: 0 0 0 0 rgba(255, 112, 67, 0.7);
+            }
+            70% {
+                transform: scale(1);
+                box-shadow: 0 0 0 10px rgba(255, 112, 67, 0);
+            }
+            100% {
+                transform: scale(0.95);
+                box-shadow: 0 0 0 0 rgba(255, 112, 67, 0);
+            }
+        }
+        .loader {
+            border: 2px solid #f3f3f3;
+            border-top: 2px solid #3498db;
+            border-radius: 50%;
+            width: 16px;
+            height: 16px;
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        /* Flutter App Mockup Styles */
+        .flutter-app-frame {
+            background-color: #1A202C;
+            border-radius: 30px;
+            padding: 10px;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        }
+        .flutter-app-screen {
+            background-color: #F7FAFC;
+            height: 500px;
+            border-radius: 20px;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+        .flutter-app-header {
+            background-color: #4CAF50;
+            color: white;
+            padding: 12px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-shrink: 0;
+        }
+        .flutter-app-body {
+            padding: 16px;
+            flex-grow: 1;
+            overflow-y: auto;
+        }
+        .flutter-app-nav {
+            display: flex;
+            justify-content: space-around;
+            padding: 8px;
+            border-top: 1px solid #E2E8F0;
+            background-color: white;
+            flex-shrink: 0;
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <!-- Header -->
+    <header class="bg-white/80 backdrop-blur-md sticky top-0 z-50 shadow-sm">
+        <nav class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <div class="text-2xl font-bold text-green-800">🌿 AyurTrace</div>
+            <div class="hidden md:flex space-x-8">
+                <a href="#how-it-works" class="text-gray-600 hover:text-green-700">How It Works</a>
+                <a href="#farmer-dapp" class="text-gray-600 hover:text-green-700">Farmer DApp</a>
+                <a href="#why-blockchain" class="text-gray-600 hover:text-green-700">Why Blockchain?</a>
+                <a href="#prototype" class="text-gray-600 hover:text-green-700">Prototype</a>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Hero Section -->
+    <main id="home" class="hero-bg">
+        <div class="container mx-auto px-6 py-24 md:py-32 text-center">
+            <h1 class="text-4xl md:text-6xl font-bold text-gray-800 leading-tight">The Journey of a Herb,<br>Secured by Blockchain.</h1>
+            <p class="mt-6 text-lg md:text-xl max-w-3xl mx-auto text-gray-600">
+                Bringing radical transparency and trust to Ayurveda. Follow the complete story of your herbal products, from the soil to your shelf, with immutable proof of authenticity.
+            </p>
+            <a href="#how-it-works" class="mt-8 inline-block bg-green-600 text-white font-bold py-3 px-8 rounded-full hover:bg-green-700 transition-transform transform hover:scale-105">
+                See The Journey
+            </a>
+        </div>
+    </main>
+
+    <!-- How It Works - Animated Timeline -->
+    <section id="how-it-works" class="py-20 md:py-28 bg-white">
+        <div class="container mx-auto px-6">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl md:text-4xl font-bold text-gray-800">From Farm to Pharmacy</h2>
+                <p class="mt-4 text-lg text-gray-600 max-w-2xl mx-auto">An unchangeable, transparent record is created at every step of the supply chain.</p>
+            </div>
+
+            <div class="max-w-3xl mx-auto">
+                <div class="relative pl-8">
+                    <!-- Timeline Line -->
+                    <div class="timeline-line"></div>
+
+                    <!-- Step 1: Collection -->
+                    <div class="mb-12 timeline-item fade-in">
+                        <div class="flex items-center mb-2">
+                            <div class="bg-green-100 text-green-700 rounded-full h-12 w-12 flex items-center justify-center">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" /><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" /></svg>
+                            </div>
+                            <h3 class="ml-4 text-2xl font-bold text-gray-800">1. Geo-Tagged Collection</h3>
+                        </div>
+                        <p class="text-gray-600">
+                            Farmers or collectors use a simple mobile app to record the harvest. A "Collection Event" is created with GPS coordinates, timestamp, species, and a photo. This data is the first link in the blockchain.
+                        </p>
+                    </div>
+
+                    <!-- Step 2: Processing -->
+                    <div class="mb-12 timeline-item fade-in">
+                        <div class="flex items-center mb-2">
+                            <div class="bg-green-100 text-green-700 rounded-full h-12 w-12 flex items-center justify-center">
+                               <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" /></svg>
+                            </div>
+                            <h3 class="ml-4 text-2xl font-bold text-gray-800">2. Processing & Aggregation</h3>
+                        </div>
+                        <p class="text-gray-600">
+                            As herbs move to processing facilities, each step—drying, sorting, milling—is recorded. This creates a seamless chain of custody, linking the raw material to the processed batch.
+                        </p>
+                    </div>
+
+                    <!-- Step 3: Lab Testing -->
+                    <div class="mb-12 timeline-item fade-in">
+                        <div class="flex items-center mb-2">
+                            <div class="bg-green-100 text-green-700 rounded-full h-12 w-12 flex items-center justify-center">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547a2 2 0 00-.547 1.806l.477 2.387a6 6 0 00.517 3.86l.158.318a6 6 0 00.517 3.86l2.387.477a2 2 0 001.806.547a2 2 0 00.547-1.806l-.477-2.387a6 6 0 00-.517-3.86l-.158-.318a6 6 0 00-.517-3.86l-2.387-.477a2 2 0 00-.547-1.806zM15 12a3 3 0 11-6 0 3 3 0 016 0z" /></svg>
+                            </div>
+                            <h3 class="ml-4 text-2xl font-bold text-gray-800">3. Quality & Purity Testing</h3>
+                        </div>
+                        <p class="text-gray-600">
+                            Independent labs test for purity, pesticides, and heavy metals. The lab uploads the Certificate of Analysis directly to the blockchain, linking it permanently to the batch.
+                        </p>
+                    </div>
+
+                    <!-- Step 4: Smart Contract Verification -->
+                     <div class="mb-12 timeline-item fade-in">
+                        <div class="flex items-center mb-2">
+                            <div class="bg-green-100 text-green-700 rounded-full h-12 w-12 flex items-center justify-center">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" /></svg>
+                            </div>
+                            <h3 class="ml-4 text-2xl font-bold text-gray-800">4. Automated Verification</h3>
+                        </div>
+                        <p class="text-gray-600">
+                           Smart contracts automatically enforce rules. They can verify if a harvest was in an approved geo-fenced area or if lab results meet quality standards before accepting the transaction. This automates compliance.
+                        </p>
+                    </div>
+
+                    <!-- Step 5: Packaging -->
+                    <div class="timeline-item fade-in">
+                        <div class="flex items-center mb-2">
+                           <div class="bg-green-100 text-green-700 rounded-full h-12 w-12 flex items-center justify-center">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4v1m6 11h2m-6.5 6V12a2.5 2.5 0 015 0v6a2.5 2.5 0 01-5 0zm0 0h-1" /><path stroke-linecap="round" stroke-linejoin="round" d="M3.5 11.5a2.5 2.5 0 015 0V18a2.5 2.5 0 01-5 0v-6.5z" /><path stroke-linecap="round" stroke-linejoin="round" d="M18 11h2M4 11H2" /></svg>
+                            </div>
+                            <h3 class="ml-4 text-2xl font-bold text-gray-800">5. Smart Labeling</h3>
+                        </div>
+                        <p class="text-gray-600">
+                           Once formulation is complete, a unique, secure QR code is generated on-chain for the final product batch. This code is the key to unlocking the herb's entire history for the end consumer.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Farmer DApp Prototype Section -->
+    <section id="farmer-dapp" class="py-20 md:py-28">
+        <div class="container mx-auto px-6">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl md:text-4xl font-bold text-gray-800">The Farmer's Tool: AyurTrace DApp</h2>
+                <p class="mt-4 text-lg text-gray-600 max-w-2xl mx-auto">A simple yet powerful Flutter app designed for the field, even without an internet connection.</p>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                <!-- Dashboard Screen -->
+                <div class="fade-in">
+                    <h3 class="font-bold text-center mb-4 text-lg">Dashboard</h3>
+                    <div class="flutter-app-frame">
+                        <div class="flutter-app-screen">
+                             <div class="flutter-app-header">
+                                <span class="font-bold">Dashboard</span>
+                                <span>🌿</span>
+                            </div>
+                            <div class="flutter-app-body space-y-4">
+                               <div class="p-4 bg-orange-100 border border-orange-200 rounded-lg text-center">
+                                    <p class="font-bold text-orange-800">2 Items Pending Sync</p>
+                                    <p class="text-sm text-orange-600">Connect to Wi-Fi to upload</p>
+                                </div>
+                                <div class="p-4 bg-white border rounded-lg">
+                                    <h4 class="font-bold mb-2">Recent Harvests</h4>
+                                    <p class="text-sm border-b pb-1">Ashwagandha - 5.2 kg</p>
+                                    <p class="text-sm pt-1">Tulsi - 3.1 kg</p>
+                                </div>
+                                <button class="w-full bg-green-500 text-white font-bold py-3 rounded-lg">New Harvest Entry</button>
+                            </div>
+                            <div class="flutter-app-nav">
+                                <div class="text-green-600 text-center text-xs"> <svg class="w-6 h-6 mx-auto" fill="currentColor" viewBox="0 0 20 20"><path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z"></path></svg> Home</div>
+                                <div class="text-gray-500 text-center text-xs"><svg class="w-6 h-6 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path></svg> History</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- New Harvest Screen -->
+                 <div class="fade-in" style="transition-delay: 100ms;">
+                    <h3 class="font-bold text-center mb-4 text-lg">New Harvest</h3>
+                    <div class="flutter-app-frame">
+                        <div class="flutter-app-screen">
+                            <div class="flutter-app-header">
+                                <span class="font-bold">New Harvest</span>
+                            </div>
+                            <div class="flutter-app-body space-y-4">
+                               <div>
+                                   <label class="font-semibold text-sm">Herb Species</label>
+                                   <input type="text" value="Ashwagandha" class="w-full p-2 border rounded-md mt-1">
+                               </div>
+                               <div>
+                                   <label class="font-semibold text-sm">Weight (kg)</label>
+                                   <input type="number" placeholder="e.g., 5.2" class="w-full p-2 border rounded-md mt-1">
+                               </div>
+                               <button class="w-full flex items-center justify-center gap-2 bg-blue-500 text-white py-2 rounded-lg">
+                                   <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
+                                   Capture GPS Location
+                               </button>
+                               <div class="text-center text-xs text-gray-500">24.58° N, 73.68° E</div>
+                               <button class="w-full flex items-center justify-center gap-2 bg-gray-600 text-white py-2 rounded-lg">
+                                   <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
+                                   Take Photo
+                               </button>
+                               <button class="w-full bg-green-500 text-white font-bold py-3 rounded-lg mt-auto">Save Offline</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                 <!-- Offline Queue Screen -->
+                 <div class="fade-in" style="transition-delay: 200ms;">
+                    <h3 class="font-bold text-center mb-4 text-lg">Offline Queue</h3>
+                    <div class="flutter-app-frame">
+                        <div class="flutter-app-screen">
+                            <div class="flutter-app-header">
+                                <span class="font-bold">Pending Uploads</span>
+                            </div>
+                            <div class="flutter-app-body">
+                                <div class="bg-white p-3 rounded-lg border mb-3">
+                                    <p class="font-bold">Ashwagandha - 5.2 kg</p>
+                                    <p class="text-sm text-gray-500">Saved: 09:15 AM</p>
+                                    <p class="text-xs text-orange-600 font-semibold mt-1">Waiting for connection...</p>
+                                </div>
+                                <div class="bg-white p-3 rounded-lg border">
+                                    <p class="font-bold">Tulsi - 3.1 kg</p>
+                                    <p class="text-sm text-gray-500">Saved: 09:55 AM</p>
+                                    <p class="text-xs text-orange-600 font-semibold mt-1">Waiting for connection...</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- History Screen -->
+                 <div class="fade-in" style="transition-delay: 300ms;">
+                    <h3 class="font-bold text-center mb-4 text-lg">History</h3>
+                    <div class="flutter-app-frame">
+                        <div class="flutter-app-screen">
+                            <div class="flutter-app-header">
+                                <span class="font-bold">Harvest History</span>
+                            </div>
+                            <div class="flutter-app-body">
+                                <div class="bg-white p-3 rounded-lg border mb-3">
+                                    <p class="font-bold">Gotu Kola - 2.5 kg</p>
+                                    <p class="text-sm text-gray-500">Aug 30, 2025</p>
+                                    <p class="text-xs text-green-600 font-semibold mt-1 flex items-center gap-1">
+                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                                        Synced to Blockchain
+                                    </p>
+                                </div>
+                               <div class="bg-white p-3 rounded-lg border mb-3">
+                                    <p class="font-bold">Brahmi - 4.0 kg</p>
+                                    <p class="text-sm text-gray-500">Aug 28, 2025</p>
+                                    <p class="text-xs text-green-600 font-semibold mt-1 flex items-center gap-1">
+                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                                        Synced to Blockchain
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Why Blockchain? -->
+    <section id="why-blockchain" class="py-20 md:py-28 bg-white">
+        <div class="container mx-auto px-6">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl md:text-4xl font-bold text-gray-800">Why a Digital Ledger?</h2>
+                <p class="mt-4 text-lg text-gray-600 max-w-2xl mx-auto">Blockchain provides a shared, unchangeable source of truth that no single party can control.</p>
+            </div>
+
+            <!-- Blockchain Animation -->
+            <div id="blockchain-explainer" class="blockchain-container fade-in">
+                <div class="flex flex-col lg:flex-row items-center justify-center space-y-4 lg:space-y-0 lg:space-x-4 mb-8">
+                    <!-- Block 1 -->
+                    <div id="block1" class="blockchain-block bg-green-50 p-4 rounded-lg shadow-md w-64 text-center">
+                        <h4 class="font-bold text-green-800">Block 1</h4>
+                        <p class="text-sm text-gray-600">🌿 Harvest Data</p>
+                        <p class="text-xs font-mono break-all mt-2 text-green-500">Hash: 0x4a2e...</p>
+                    </div>
+                    <!-- Chain 1 -->
+                    <div class="w-4 h-1 lg:w-16 lg:h-4 bg-green-600 blockchain-chain"></div>
+                    <!-- Block 2 -->
+                    <div id="block2" class="blockchain-block bg-green-50 p-4 rounded-lg shadow-md w-64 text-center">
+                        <h4 class="font-bold text-green-800">Block 2</h4>
+                        <p class="text-sm text-gray-600">🔬 Lab Results</p>
+                        <p class="text-xs font-mono break-all mt-2 text-green-500">Hash: 0x8b9f...</p>
+                    </div>
+                    <!-- Chain 2 -->
+                    <div class="w-4 h-1 lg:w-16 lg:h-4 bg-green-600 blockchain-chain"></div>
+                    <!-- Block 3 -->
+                    <div class="blockchain-block bg-green-50 p-4 rounded-lg shadow-md w-64 text-center">
+                        <h4 class="font-bold text-green-800">Block 3</h4>
+                        <p class="text-sm text-gray-600">🏭 Processing Info</p>
+                        <p class="text-xs font-mono break-all mt-2 text-green-500">Hash: 0x1c7d...</p>
+                    </div>
+                </div>
+                <div id="tamper-button-container" class="text-center mt-8">
+                    <button id="tamper-button" class="bg-red-500 text-white font-bold py-2 px-6 rounded-full hover:bg-red-600 transition-all">
+                        Try to Change a Record
+                    </button>
+                    <p id="tamper-text" class="mt-4 text-gray-600 italic transition-opacity opacity-0">Notice how changing one block breaks the entire chain. The cryptographic links make the record tamper-evident.</p>
+                </div>
+            </div>
+
+            <!-- Key Benefits -->
+            <div class="mt-20 grid md:grid-cols-3 gap-8 text-center">
+                <div class="fade-in">
+                    <h3 class="text-2xl font-bold text-gray-800">Trust</h3>
+                    <p class="mt-2 text-gray-600">All participants see the same data, creating trust in a decentralized network without needing a central authority.</p>
+                </div>
+                <div class="fade-in">
+                    <h3 class="text-2xl font-bold text-gray-800">Immutability</h3>
+                    <p class="mt-2 text-gray-600">Once a record is added to the blockchain, it cannot be changed or deleted, preventing fraud and ensuring data integrity.</p>
+                </div>
+                <div class="fade-in">
+                    <h3 class="text-2xl font-bold text-gray-800">Transparency</h3>
+                    <p class="mt-2 text-gray-600">The entire journey of the herb is visible to regulators and consumers, providing unprecedented traceability.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Prototype Section -->
+    <section id="prototype" class="py-20 md:py-28 bg-white">
+        <div class="container mx-auto px-6">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl md:text-4xl font-bold text-gray-800">Consumer Empowerment</h2>
+                <p class="mt-4 text-lg text-gray-600 max-w-2xl mx-auto">Scan the QR code on your product to instantly verify its origin and quality.</p>
+            </div>
+            
+            <div class="bg-gray-50 max-w-4xl mx-auto p-8 rounded-2xl shadow-lg border">
+                <div class="flex flex-col md:flex-row items-center gap-8">
+                    <!-- QR Code and Product -->
+                    <div class="text-center">
+                        <img src="https://placehold.co/250x400/FFFFFF/333333?text=Organic\nAshwagandha" alt="Ashwagandha Bottle" class="rounded-lg mx-auto shadow-md">
+                        <svg class="w-32 h-32 mx-auto mt-4" viewBox="0 0 256 256"><path fill="#333" d="M164 52h-24v24h24ZM92 76h24V52H92Zm52-32v8h-8v8h-8v8h8v8h8v8h-8v8h8v8h-8v8h8v8h-8v-8h-8v8h-8v-8h-8v8h-8v8h8v8h8v8h8v8h-8v8h-8v8h8v8h-8v8h8v8h24v-8h8v8h8v-8h8v-8h8v8h8v8h-8v8h-8v8h-8v8h-8v8h-8v8h-8v8h-8v-8H92v8H68v-24h8v-8h8v-8h8v-8h8v-8h8v-8h-8v-8h-8v-8h-8v-8h-8v8h-8v8H68v-8h8v-8h8v-8H68v-8h8V92H68V68h24V44h24v32h8V44h32v8h8V44h24v8Zm-44 56h8v8h-8Zm-16 16h8v8h-8Zm16 8h-8v8h8v-8Zm-8 8v-8h-8v8Zm0 8h8v8h-8Zm16-8v-8h-8v8Zm-8 16h8v8h-8Zm16 8h-8v8h8Zm-8-24h-8v8h8Zm0-8h8v-8h-8Zm-8-8h-8v8h8Zm-8-8v-8h-8v8Zm16 8h8v8h-8Zm-8-16v8h-8v-8Zm0-8h8v8h-8Zm0-8h-8v-8h8Zm16-8h-8v8h8Zm24-24h8v8h-8Zm-8 8h-8v8h8Zm8-16h8v8h-8Zm-8-8h-8v8h8Z"/></svg>
+                        <p class="text-sm mt-2 font-mono text-gray-500">Batch: 74B-2A1</p>
+                    </div>
+                    
+                    <!-- Description and Button -->
+                    <div class="flex-1">
+                        <h3 class="text-3xl font-bold text-gray-800">Your Window to Authenticity</h3>
+                        <p class="mt-4 text-gray-600">
+                            Each bottle is sealed with a unique, blockchain-generated QR code. This code is your personal key to the product's complete history, offering peace of mind and a direct connection to its source.
+                        </p>
+                        <p class="mt-4 text-gray-600">
+                           Click the button below to simulate a scan and see the detailed provenance report for this batch of Ashwagandha.
+                        </p>
+                         <button id="scan-button" class="mt-6 w-full md:w-auto bg-green-600 text-white font-bold py-3 px-8 rounded-full hover:bg-green-700 transition-transform transform hover:scale-105">
+                            Simulate Scan
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Provenance Modal -->
+    <div id="provenance-modal" class="fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center p-4 z-50 hidden">
+        <div id="modal-content" class="bg-white rounded-2xl shadow-2xl w-full max-w-4xl max-h-[90vh] overflow-y-auto transform scale-95 transition-transform duration-300">
+            <div class="p-6 md:p-8 border-b relative">
+                <h2 class="text-2xl md:text-3xl font-bold text-center text-gray-800">Provenance Report</h2>
+                <p class="text-center text-gray-500 font-mono">Batch ID: 74B-2A1</p>
+                <button id="close-modal" class="absolute top-4 right-4 text-gray-500 text-3xl leading-none hover:text-gray-800">&times;</button>
+            </div>
+            <div class="p-6 md:p-8">
+                <!-- Map Section -->
+                <div class="grid md:grid-cols-2 gap-8 items-center">
+                    <div>
+                        <h3 class="text-xl font-bold text-gray-800 mb-2">🌿 Harvest Location</h3>
+                        <p class="text-gray-600 mb-4">
+                            This Ashwagandha was sustainably harvested by the <strong class="text-green-700">Aravalli Hills Herbal Cooperative</strong>.
+                        </p>
+                        <div class="text-gray-600 space-y-1">
+                            <p><strong>Date:</strong> July 15, 2025</p>
+                            <p><strong>Location:</strong> Udaipur District, Rajasthan, India</p>
+                            <p class="flex items-center"><strong>Status:</strong> <span class="ml-2 inline-block bg-green-100 text-green-800 text-xs font-semibold px-2.5 py-0.5 rounded-full">Verified Sustainable Zone</span></p>
+                        </div>
+                    </div>
+                    <div class="relative h-64 md:h-full w-full rounded-lg overflow-hidden border">
+                         <img src="https://i.imgur.com/uVMMH5U.png" class="w-full h-full object-cover" alt="Map of Rajasthan showing Udaipur">
+                         <div class="pulsing-dot" style="top: 65%; left: 35%;"></div>
+                         <div class="absolute bottom-2 left-2 bg-white/70 backdrop-blur-sm p-2 rounded-md text-xs text-gray-700">
+                            Location: Aravalli Hills, Udaipur
+                         </div>
+                    </div>
+                </div>
+                
+                <!-- Journey Timeline -->
+                <div class="mt-10">
+                    <h3 class="text-xl font-bold text-gray-800 mb-6 text-center">The Herb's Journey</h3>
+                    <div class="grid md:grid-cols-3 gap-4 text-center">
+                        <div class="bg-gray-50 p-4 rounded-lg border">
+                            <p class="font-bold">✅ Harvested</p>
+                            <p class="text-sm text-gray-500">July 15, 2025</p>
+                        </div>
+                        <div class="flex items-center justify-center text-gray-300 hidden md:flex">&rarr;</div>
+                        <div class="bg-gray-50 p-4 rounded-lg border">
+                            <p class="font-bold">✅ Lab Tested</p>
+                            <p class="text-sm text-gray-500">July 18, 2025</p>
+                             <button class="text-sm text-green-600 hover:underline cert-button">View Certificate</button>
+                        </div>
+                        <div class="flex items-center justify-center text-gray-300 hidden md:flex">&rarr;</div>
+                        <div class="bg-gray-50 p-4 rounded-lg border">
+                            <p class="font-bold">✅ Processed & Packaged</p>
+                            <p class="text-sm text-gray-500">August 20, 2025</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Gemini AI Features Section -->
+                <div class="mt-10 bg-blue-50/50 p-6 rounded-lg border border-blue-200">
+                    <h3 class="text-xl font-bold text-gray-800 mb-4">✨ Powered by AI</h3>
+                    <div class="space-y-6">
+                        <!-- Ask about Herb -->
+                        <div>
+                            <label for="herb-question" class="font-semibold text-gray-700">Ask about this herb:</label>
+                            <div class="flex gap-2 mt-2">
+                                <input type="text" id="herb-question" placeholder="e.g., What are the benefits of Ashwagandha?" class="flex-grow p-2 border rounded-md focus:ring-2 focus:ring-blue-400 focus:outline-none">
+                                <button id="ask-herb-button" class="bg-blue-500 text-white font-semibold px-4 py-2 rounded-md hover:bg-blue-600 flex items-center justify-center min-w-[80px]">Ask</button>
+                            </div>
+                            <div id="herb-answer" class="mt-3 p-4 bg-white rounded-md border text-gray-700 hidden"></div>
+                        </div>
+                        <!-- Suggest Recipe -->
+                        <div>
+                            <button id="suggest-recipe-button" class="bg-green-500 text-white font-semibold px-4 py-2 rounded-md hover:bg-green-600 flex items-center justify-center w-full md:w-auto">
+                                ✨ Suggest a Recipe
+                            </button>
+                            <div id="recipe-suggestion" class="mt-3 p-4 bg-white rounded-md border text-gray-700 hidden"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Community Section -->
+                <div class="mt-10 bg-green-50/50 p-6 rounded-lg border border-green-200">
+                     <h3 class="text-xl font-bold text-gray-800 mb-4">Meet the Community</h3>
+                     <div class="flex flex-col sm:flex-row items-center gap-6">
+                        <img src="https://placehold.co/100x100/C8E6C9/333333?text=Farmer" class="rounded-full w-24 h-24 object-cover flex-shrink-0" alt="Farmer">
+                        <div class="flex-grow">
+                             <p id="farmer-story-text" class="text-gray-700">
+                                The Aravalli Hills Herbal Cooperative is a collective of 50 local families dedicated to preserving traditional farming methods and protecting the biodiversity of their region. By choosing this product, you directly support their livelihood and contribute to sustainable agricultural practices.
+                             </p>
+                             <button id="generate-story-button" class="mt-4 text-green-700 font-semibold hover:text-green-800 flex items-center gap-2">
+                                ✨ Tell me their story
+                             </button>
+                        </div>
+                     </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Certificate Modal -->
+    <div id="cert-modal" class="fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center p-4 z-50 hidden">
+        <div class="bg-white p-8 rounded-lg shadow-xl w-full max-w-lg relative">
+            <h3 class="text-2xl font-bold mb-4">Certificate of Analysis</h3>
+            <p class="font-mono text-sm mb-4">Batch ID: 74B-2A1</p>
+            <div class="space-y-2 text-gray-700">
+                <p><strong>DNA Barcoding:</strong> Withania somnifera (Ashwagandha) - <span class="font-bold text-green-600">MATCH</span></p>
+                <p><strong>Heavy Metal Screen:</strong> <span class="font-bold text-green-600">PASS</span></p>
+                <p><strong>Pesticide Analysis:</strong> <span class="font-bold text-green-600">PASS</span></p>
+            </div>
+            <button id="close-cert-modal" class="mt-6 bg-gray-200 text-gray-800 py-2 px-4 rounded-lg hover:bg-gray-300">Close</button>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white py-12">
+        <div class="container mx-auto px-6 text-center">
+            <p class="text-2xl font-bold">🌿 AyurTrace</p>
+            <p class="mt-2 text-gray-400">A Ministry of Ayush Initiative for a Transparent Future.</p>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // --- Intersection Observer for fade-in animations ---
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                    }
+                });
+            }, { threshold: 0.1 });
+
+            const elementsToFadeIn = document.querySelectorAll('.fade-in');
+            elementsToFadeIn.forEach(el => observer.observe(el));
+            
+            // --- Blockchain Animation Logic ---
+            const blockchainExplainer = document.getElementById('blockchain-explainer');
+            const tamperButton = document.getElementById('tamper-button');
+            const tamperText = document.getElementById('tamper-text');
+            const block1 = document.getElementById('block1');
+            const chains = document.querySelectorAll('.blockchain-chain');
+
+            const blockchainObserver = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('animate');
+                    }
+                });
+            }, { threshold: 0.5 });
+            
+            if(blockchainExplainer) blockchainObserver.observe(blockchainExplainer);
+
+            tamperButton.addEventListener('click', () => {
+                blockchainExplainer.classList.add('tamper-animation');
+                block1.classList.add('tampered-block');
+                chains.forEach(chain => chain.classList.add('broken-chain'));
+                tamperText.style.opacity = '1';
+
+                setTimeout(() => {
+                    blockchainExplainer.classList.remove('tamper-animation');
+                    block1.classList.remove('tampered-block');
+                    chains.forEach(chain => chain.classList.remove('broken-chain'));
+                    tamperText.style.opacity = '0';
+                }, 4000);
+            });
+            
+            // --- Prototype Modal Logic ---
+            const scanButton = document.getElementById('scan-button');
+            const modal = document.getElementById('provenance-modal');
+            const modalContent = document.getElementById('modal-content');
+            const closeModalButton = document.getElementById('close-modal');
+
+            const openModal = () => {
+                modal.classList.remove('hidden');
+                setTimeout(() => modalContent.classList.add('scale-100'), 10);
+            };
+
+            const closeModal = () => {
+                modalContent.classList.remove('scale-100');
+                setTimeout(() => modal.classList.add('hidden'), 300);
+            };
+
+            scanButton.addEventListener('click', openModal);
+            closeModalButton.addEventListener('click', closeModal);
+            modal.addEventListener('click', (e) => {
+                if (e.target === modal) {
+                    closeModal();
+                }
+            });
+            
+            // --- Certificate Modal Logic ---
+            const certButtons = document.querySelectorAll('.cert-button');
+            const certModal = document.getElementById('cert-modal');
+            const closeCertModalButton = document.getElementById('close-cert-modal');
+
+            certButtons.forEach(button => {
+                button.addEventListener('click', () => certModal.classList.remove('hidden'));
+            });
+
+            const closeCertModal = () => certModal.classList.add('hidden');
+            closeCertModalButton.addEventListener('click', closeCertModal);
+            certModal.addEventListener('click', (e) => {
+                if (e.target === certModal) {
+                    closeCertModal();
+                }
+            });
+            
+            // --- Gemini API Integration ---
+            const apiKey = ""; // Left empty for Canvas runtime injection
+            const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-05-20:generateContent?key=${apiKey}`;
+
+            const askHerbButton = document.getElementById('ask-herb-button');
+            const herbQuestionInput = document.getElementById('herb-question');
+            const herbAnswerDiv = document.getElementById('herb-answer');
+
+            const suggestRecipeButton = document.getElementById('suggest-recipe-button');
+            const recipeSuggestionDiv = document.getElementById('recipe-suggestion');
+
+            const generateStoryButton = document.getElementById('generate-story-button');
+            const farmerStoryText = document.getElementById('farmer-story-text');
+            const originalStory = farmerStoryText.innerHTML;
+
+            // Helper to show loading state on a button
+            const showLoading = (button, text = '') => {
+                button.disabled = true;
+                button.originalText = button.innerHTML;
+                button.innerHTML = `<div class="loader"></div>`;
+            };
+
+            const hideLoading = (button) => {
+                button.disabled = false;
+                button.innerHTML = button.originalText;
+            };
+            
+            // Generic function to call Gemini API
+            async function callGemini(prompt) {
+                const payload = { contents: [{ parts: [{ text: prompt }] }] };
+                try {
+                    const response = await fetch(apiUrl, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(payload)
+                    });
+                    if (!response.ok) {
+                        throw new Error(`API call failed with status: ${response.status}`);
+                    }
+                    const result = await response.json();
+                    return result.candidates?.[0]?.content?.parts?.[0]?.text || "Sorry, I couldn't get a response. Please try again.";
+                } catch (error) {
+                    console.error("Gemini API call error:", error);
+                    return "An error occurred while contacting the AI. Please check the console for details.";
+                }
+            }
+            
+            // Feature 1: Ask about the herb
+            askHerbButton.addEventListener('click', async () => {
+                const question = herbQuestionInput.value.trim();
+                if (!question) {
+                    herbAnswerDiv.innerText = "Please enter a question.";
+                    herbAnswerDiv.classList.remove('hidden');
+                    return;
+                }
+                showLoading(askHerbButton);
+                herbAnswerDiv.classList.add('hidden');
+                const prompt = `As an expert in Ayurveda, answer the following question about Ashwagandha in a concise and easy-to-understand way for a consumer: "${question}"`;
+                const answer = await callGemini(prompt);
+                herbAnswerDiv.innerHTML = answer.replace(/\n/g, '<br>'); // Basic formatting
+                herbAnswerDiv.classList.remove('hidden');
+                hideLoading(askHerbButton);
+            });
+
+            // Feature 2: Suggest a Recipe
+            suggestRecipeButton.addEventListener('click', async () => {
+                showLoading(suggestRecipeButton);
+                recipeSuggestionDiv.classList.add('hidden');
+                const prompt = "Generate a simple and healthy recipe using Ashwagandha powder. Provide a name, a short description, a list of ingredients, and step-by-step instructions. Format the response with clear headings (e.g., **Name:**, **Ingredients:**).";
+                const recipe = await callGemini(prompt);
+                recipeSuggestionDiv.innerHTML = recipe
+                    .replace(/\*\*(.*?)\*\*/g, '<strong class="font-semibold text-gray-800">$1</strong>') // Bold headings
+                    .replace(/\n/g, '<br>');
+                recipeSuggestionDiv.classList.remove('hidden');
+                hideLoading(suggestRecipeButton);
+            });
+
+            // Feature 3: Generate Farmer's Story
+            generateStoryButton.addEventListener('click', async () => {
+                showLoading(generateStoryButton);
+                const prompt = "Based on the following information: {Collector Group: 'Aravalli Hills Herbal Cooperative', Location: 'Udaipur District, Rajasthan', Dedication: 'preserving traditional farming methods and protecting biodiversity'}, write a short, engaging, and heartfelt story (about 100 words) about a day in the life of a farmer from this cooperative. Make it sound authentic and personal.";
+                const story = await callGemini(prompt);
+                farmerStoryText.innerHTML = story.replace(/\n/g, '<br>');
+                hideLoading(generateStoryButton);
+            });
+
+        });
+    </script>
+</body>
+</html>
+
