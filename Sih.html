@@ -148,13 +148,8 @@
             background-color: white;
             flex-shrink: 0;
         }
-        .role-btn {
-            transition: all 0.2s ease-in-out;
-        }
-        .role-btn.selected {
-            background-color: #38A169 !important; /* green-600 */
-            color: white !important;
-            border-color: #38A169 !important;
+        .role-description {
+            transition: all 0.3s ease-in-out;
         }
     </style>
 </head>
@@ -167,9 +162,9 @@
             <div class="hidden md:flex space-x-8">
                 <a href="#home" class="text-gray-600 hover:text-green-700">Home</a>
                 <a href="#team" class="text-gray-600 hover:text-green-700">Our Team</a>
-                <a href="#how-it-works" class="text-gray-600 hover:text-green-700">How It Works</a>
+                <a href="#tech-stack" class="text-gray-600 hover:text-green-700">Tech Stack</a>
+                <a href="#roadmap" class="text-gray-600 hover:text-green-700">Project Journey (Roadmap)</a>
                 <a href="#farmer-dapp" class="text-gray-600 hover:text-green-700">Farmer DApp</a>
-                <a href="#why-blockchain" class="text-gray-600 hover:text-green-700">Why Blockchain?</a>
                 <a href="#prototype" class="text-gray-600 hover:text-green-700">Prototype</a>
             </div>
         </nav>
@@ -182,7 +177,7 @@
             <p class="mt-6 text-lg md:text-xl max-w-3xl mx-auto text-gray-600">
                 Bringing radical transparency and trust to Ayurveda. Follow the complete story of your herbal products, from the soil to your shelf, with immutable proof of authenticity.
             </p>
-            <a href="#how-it-works" class="mt-8 inline-block bg-green-600 text-white font-bold py-3 px-8 rounded-full hover:bg-green-700 transition-transform transform hover:scale-105">
+            <a href="#roadmap" class="mt-8 inline-block bg-green-600 text-white font-bold py-3 px-8 rounded-full hover:bg-green-700 transition-transform transform hover:scale-105">
                 See The Journey
             </a>
         </div>
@@ -194,35 +189,77 @@
             <div class="text-center mb-16">
                 <h2 class="text-3xl md:text-4xl font-bold text-gray-800">Meet the Team & Our Mission</h2>
                 <div class="mt-6 max-w-3xl mx-auto">
-                    <p class="text-lg text-gray-600 italic">Our Problem Statement:</p>
-                    <p class="mt-2 text-lg text-gray-700">"Develop a blockchain-based system for botanical traceability of Ayurvedic herbs, including geo-tagging from the point of collection (farmers/wild collectors) to the final Ayurvedic formulation label."</p>
+                    <p class="text-lg text-gray-600 italic">Hamara Problem Statement:</p>
+                    <p class="mt-2 text-lg text-gray-700">"Ayurvedic jadi-butiyo ke liye ek blockchain-based traceability system develop karna, jo collection point (kisan/jangal se lene wale) se lekar final product ke label tak geo-tagging karega."</p>
                 </div>
             </div>
 
-            <h3 class="text-2xl font-bold text-center mb-10">Technologies & Learning Path</h3>
-            <div class="flex flex-wrap justify-center gap-4 mb-16 text-center">
-                <span class="bg-gray-200 text-gray-800 px-4 py-2 rounded-full font-semibold">Hyperledger Fabric (Blockchain)</span>
-                <span class="bg-gray-200 text-gray-800 px-4 py-2 rounded-full font-semibold">Go / Node.js (Smart Contracts)</span>
-                <span class="bg-gray-200 text-gray-800 px-4 py-2 rounded-full font-semibold">Flutter (Mobile DApp)</span>
-                <span class="bg-gray-200 text-gray-800 px-4 py-2 rounded-full font-semibold">React.js (Web Portal)</span>
-                <span class="bg-gray-200 text-gray-800 px-4 py-2 rounded-full font-semibold">Firebase Firestore (Real-time DB)</span>
-                <span class="bg-gray-200 text-gray-800 px-4 py-2 rounded-full font-semibold">UI/UX Design</span>
-            </div>
-
-            <h3 class="text-2xl font-bold text-center mb-4">Assign Roles</h3>
-            <p class="text-center text-gray-500 mb-10">Click on a role to assign it. Selections are saved and shared in real-time.</p>
+            <h3 class="text-2xl font-bold text-center mb-4">Apna Role Chunein</h3>
+            <p class="text-center text-gray-500 mb-10">Har member apne naam ke neeche diye gaye dropdown se apna role chun sakta hai. Selection save nahi hoga.</p>
 
             <div id="team-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-                <!-- Team member cards will be dynamically populated here -->
+                <!-- Team member cards will be dynamically populated here by JavaScript -->
             </div>
         </div>
     </section>
 
-    <!-- How It Works - Animated Timeline -->
-    <section id="how-it-works" class="py-20 md:py-28 bg-white">
+    <!-- Technology Stack Section -->
+    <section id="tech-stack" class="py-20 md:py-28 bg-white">
         <div class="container mx-auto px-6">
             <div class="text-center mb-16">
-                <h2 class="text-3xl md:text-4xl font-bold text-gray-800">From Farm to Pharmacy</h2>
+                <h2 class="text-3xl md:text-4xl font-bold text-gray-800">Our Technology Stack</h2>
+                <p class="mt-4 text-lg text-gray-600 max-w-2xl mx-auto">The core technologies we are using to build AyurTrace.</p>
+            </div>
+            <div class="max-w-4xl mx-auto space-y-8">
+                <!-- Hyperledger Fabric -->
+                <div class="flex flex-col sm:flex-row items-center gap-6 p-6 bg-gray-50 rounded-2xl border transition-all hover:shadow-lg hover:border-green-200">
+                    <div class="flex-shrink-0 bg-white p-3 rounded-full shadow">
+                        <svg class="w-16 h-16" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 210 210"><path d="M105 0C47.1 0 0 47.1 0 105s47.1 105 105 105 105-47.1 105-105S162.9 0 105 0zm-.6 190.1c-46.6 0-84.5-37.9-84.5-84.5s37.9-84.5 84.5-84.5 84.5 37.9 84.5 84.5-37.9 84.5-84.5 84.5z"/><path d="M104.4 53.2c-28.6 0-51.8 23.2-51.8 51.8s23.2 51.8 51.8 51.8 51.8-23.2 51.8-51.8-23.2-51.8-51.8-51.8zm0 84.5c-18 0-32.7-14.6-32.7-32.7s14.6-32.7 32.7-32.7 32.7 14.6 32.7 32.7-14.7 32.7-32.7 32.7z"/><path d="M129.8 105c0-14-11.4-25.4-25.4-25.4s-25.4 11.4-25.4 25.4 11.4 25.4 25.4 25.4 25.4-11.4 25.4-25.4z"/></svg>
+                    </div>
+                    <div class="text-center sm:text-left">
+                        <h3 class="text-2xl font-bold text-gray-800">Hyperledger Fabric</h3>
+                        <p class="mt-2 text-gray-600">The foundation of our project. A permissioned blockchain framework that provides the secure, transparent, and immutable ledger for tracking every herb's journey.</p>
+                    </div>
+                </div>
+                <!-- Node.js -->
+                <div class="flex flex-col sm:flex-row items-center gap-6 p-6 bg-gray-50 rounded-2xl border transition-all hover:shadow-lg hover:border-green-200">
+                    <div class="flex-shrink-0 bg-white p-3 rounded-full shadow">
+                         <svg class="w-16 h-16 text-green-600" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M12.872 1.34a1.002 1.002 0 0 0-1.744 0l-9.333 16.165a1 1 0 0 0 .872 1.5h18.666a1 1 0 0 0 .872-1.5L12.872 1.34zM13 17h-2v-2h2v2zm-2-4V8h2l-.001 5H11z"/></svg>
+                    </div>
+                     <div class="text-center sm:text-left">
+                        <h3 class="text-2xl font-bold text-gray-800">Node.js / Go</h3>
+                        <p class="mt-2 text-gray-600">Used for writing "chaincode" or smart contracts. This is the business logic that automates rule enforcement on our blockchain, like verifying geo-fences and quality checks.</p>
+                    </div>
+                </div>
+                 <!-- React.js -->
+                <div class="flex flex-col sm:flex-row items-center gap-6 p-6 bg-gray-50 rounded-2xl border transition-all hover:shadow-lg hover:border-green-200">
+                    <div class="flex-shrink-0 bg-white p-3 rounded-full shadow">
+                        <svg class="w-16 h-16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" stroke="#61DAFB"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"><path d="M15.3494 15.3539C14.8732 16.571 13.5415 17.5 12 17.5C10.4585 17.5 9.12684 16.571 8.65063 15.3539M15.3494 15.3539C16.5684 14.8776 17.5 13.5446 17.5 12C17.5 10.4554 16.5684 9.12241 15.3494 8.64612M15.3494 15.3539C15.8239 14.1375 15.8239 12.8625 15.3494 11.6461L15.3494 8.64612M8.65063 8.64612C9.12684 7.42905 10.4585 6.5 12 6.5C13.5415 6.5 14.8732 7.42905 15.3494 8.64612M8.65063 8.64612C7.43159 9.12241 6.5 10.4554 6.5 12C6.5 13.5446 7.43159 14.8776 8.65063 15.3539M8.65063 8.64612C8.17614 9.86255 8.17614 11.1375 8.65063 12.3539L8.65063 15.3539M12 21C16.9706 21 21 16.9706 21 12C21 7.02944 16.9706 3 12 3C7.02944 3 3 7.02944 3 12C3 16.9706 7.02944 21 12 21Z" stroke="#61DAFB" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path></g></svg>
+                    </div>
+                     <div class="text-center sm:text-left">
+                        <h3 class="text-2xl font-bold text-gray-800">HTML / CSS / JS</h3>
+                        <p class="mt-2 text-gray-600">The core technologies for building the user interface. We use them to create the fast and interactive web portal that consumers use to view the provenance report after scanning a QR code.</p>
+                    </div>
+                </div>
+                <!-- Flutter -->
+                <div class="flex flex-col sm:flex-row items-center gap-6 p-6 bg-gray-50 rounded-2xl border transition-all hover:shadow-lg hover:border-green-200">
+                    <div class="flex-shrink-0 bg-white p-3 rounded-full shadow">
+                        <svg class="w-16 h-16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M14.596 16.811L8.24399 10.459L12.019 6.683L18.371 13.035L14.596 16.811Z" fill="#027DFD"></path><path d="M12.019 6.683L14.23 4.471C14.53 4.171 15.02 4.171 15.32 4.471L18.371 7.522L12.019 13.874L8.24399 10.459L12.019 6.683Z" fill="#027DFD"></path><path d="M18.371 13.035L12.019 19.387L14.596 21.964L20.572 15.988C21.322 15.238 21.322 14.012 20.572 13.262L18.371 11.054L18.141 11.284L18.371 13.035Z" fill="#40C4FF"></path></svg>
+                    </div>
+                     <div class="text-center sm:text-left">
+                        <h3 class="text-2xl font-bold text-gray-800">Flutter</h3>
+                        <p class="mt-2 text-gray-600">Google's UI toolkit for building natively compiled applications for mobile from a single codebase. It's perfect for creating the simple, reliable, and offline-capable app for our farmers.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Project Journey (Roadmap) -->
+    <section id="roadmap" class="py-20 md:py-28">
+        <div class="container mx-auto px-6">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl md:text-4xl font-bold text-gray-800">Project Journey (Roadmap)</h2>
                 <p class="mt-4 text-lg text-gray-600 max-w-2xl mx-auto">An unchangeable, transparent record is created at every step of the supply chain.</p>
             </div>
 
@@ -301,7 +338,7 @@
     </section>
     
     <!-- Farmer DApp Prototype Section -->
-    <section id="farmer-dapp" class="py-20 md:py-28">
+    <section id="farmer-dapp" class="py-20 md:py-28 bg-white">
         <div class="container mx-auto px-6">
             <div class="text-center mb-16">
                 <h2 class="text-3xl md:text-4xl font-bold text-gray-800">The Farmer's Tool: AyurTrace DApp</h2>
@@ -428,7 +465,7 @@
     </section>
 
     <!-- Why Blockchain? -->
-    <section id="why-blockchain" class="py-20 md:py-28 bg-white">
+    <section id="why-blockchain" class="py-20 md:py-28">
         <div class="container mx-auto px-6">
             <div class="text-center mb-16">
                 <h2 class="text-3xl md:text-4xl font-bold text-gray-800">Why a Digital Ledger?</h2>
@@ -499,7 +536,7 @@
                 <div class="flex flex-col md:flex-row items-center gap-8">
                     <!-- QR Code and Product -->
                     <div class="text-center">
-                        <img src="https://placehold.co/250x400/FFFFFF/333333?text=Organic\nAshwagandha" alt="Ashwagandha Bottle" class="rounded-lg mx-auto shadow-md">
+                        <img src="https://placehold.co/250x400/FFFFFF/333333?text=Organic%0AAshwagandha" alt="Ashwagandha Bottle" class="rounded-lg mx-auto shadow-md">
                         <svg class="w-32 h-32 mx-auto mt-4" viewBox="0 0 256 256"><path fill="#333" d="M164 52h-24v24h24ZM92 76h24V52H92Zm52-32v8h-8v8h-8v8h8v8h8v8h-8v8h8v8h-8v8h8v8h-8v-8h-8v8h-8v-8h-8v8h-8v8h8v8h8v8h8v8h-8v8h-8v8h8v8h-8v8h8v8h24v-8h8v8h8v-8h8v-8h8v8h8v8h-8v8h-8v8h-8v8h-8v8h-8v8h-8v8h-8v-8H92v8H68v-24h8v-8h8v-8h8v-8h8v-8h8v-8h-8v-8h-8v-8h-8v-8h-8v8h-8v8H68v-8h8v-8h8v-8H68v-8h8V92H68V68h24V44h24v32h8V44h32v8h8V44h24v8Zm-44 56h8v8h-8Zm-16 16h8v8h-8Zm16 8h-8v8h8v-8Zm-8 8v-8h-8v8Zm0 8h8v8h-8Zm16-8v-8h-8v8Zm-8 16h8v8h-8Zm16 8h-8v8h8Zm-8-24h-8v8h8Zm0-8h8v-8h-8Zm-8-8h-8v8h8Zm-8-8v-8h-8v8Zm16 8h8v8h-8Zm-8-16v8h-8v-8Zm0-8h8v8h-8Zm0-8h-8v-8h8Zm16-8h-8v8h8Zm24-24h8v8h-8Zm-8 8h-8v8h8Zm8-16h8v8h-8Zm-8-8h-8v8h8Z"/></svg>
                         <p class="text-sm mt-2 font-mono text-gray-500">Batch: 74B-2A1</p>
                     </div>
@@ -530,7 +567,7 @@
                 <p class="text-center text-gray-500 font-mono">Batch ID: 74B-2A1</p>
                 <button id="close-modal" class="absolute top-4 right-4 text-gray-500 text-3xl leading-none hover:text-gray-800">&times;</button>
             </div>
-            <div class="p-6 md:p-8">
+            <div class="p-6 md:p-8">    
                 <!-- Map Section -->
                 <div class="grid md:grid-cols-2 gap-8 items-center">
                     <div>
@@ -639,32 +676,7 @@
         </div>
     </footer>
     
-    <script type="module">
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
-        import { getAuth, signInAnonymously, signInWithCustomToken } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
-        import { getFirestore, doc, setDoc, collection, onSnapshot } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
-
-        // --- Firebase Initialization ---
-        const appId = typeof __app_id !== 'undefined' ? __app_id : 'ayurtrace-default';
-        const firebaseConfig = typeof __firebase_config !== 'undefined' ? JSON.parse(__firebase_config) : { apiKey: "DEMO", authDomain: "DEMO", projectId: "DEMO" };
-        const initialAuthToken = typeof __initial_auth_token !== 'undefined' ? __initial_auth_token : null;
-
-        let db;
-        try {
-            const app = initializeApp(firebaseConfig);
-            const auth = getAuth(app);
-            db = getFirestore(app);
-
-            if (initialAuthToken) {
-                await signInWithCustomToken(auth, initialAuthToken);
-            } else {
-                await signInAnonymously(auth);
-            }
-        } catch (error) {
-            console.error("Firebase initialization failed:", error);
-            // Add a user-facing error message if needed
-        }
-
+    <script>
         document.addEventListener('DOMContentLoaded', () => {
             // --- Intersection Observer for fade-in animations ---
             const observer = new IntersectionObserver((entries) => {
@@ -675,39 +687,40 @@
                 });
             }, { threshold: 0.1 });
 
-            const elementsToFadeIn = document.querySelectorAll('.fade-in');
-            elementsToFadeIn.forEach(el => observer.observe(el));
+            document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
             
             // --- Blockchain Animation Logic ---
             const blockchainExplainer = document.getElementById('blockchain-explainer');
-            const tamperButton = document.getElementById('tamper-button');
-            const tamperText = document.getElementById('tamper-text');
-            const block1 = document.getElementById('block1');
-            const chains = document.querySelectorAll('.blockchain-chain');
+            if (blockchainExplainer) {
+                const tamperButton = document.getElementById('tamper-button');
+                const tamperText = document.getElementById('tamper-text');
+                const block1 = document.getElementById('block1');
+                const chains = document.querySelectorAll('.blockchain-chain');
 
-            const blockchainObserver = new IntersectionObserver((entries) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        entry.target.classList.add('animate');
-                    }
+                const blockchainObserver = new IntersectionObserver((entries) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            entry.target.classList.add('animate');
+                        }
+                    });
+                }, { threshold: 0.5 });
+                
+                blockchainObserver.observe(blockchainExplainer);
+
+                tamperButton.addEventListener('click', () => {
+                    blockchainExplainer.classList.add('tamper-animation');
+                    block1.classList.add('tampered-block');
+                    chains.forEach(chain => chain.classList.add('broken-chain'));
+                    tamperText.style.opacity = '1';
+
+                    setTimeout(() => {
+                        blockchainExplainer.classList.remove('tamper-animation');
+                        block1.classList.remove('tampered-block');
+                        chains.forEach(chain => chain.classList.remove('broken-chain'));
+                        tamperText.style.opacity = '0';
+                    }, 4000);
                 });
-            }, { threshold: 0.5 });
-            
-            if(blockchainExplainer) blockchainObserver.observe(blockchainExplainer);
-
-            tamperButton.addEventListener('click', () => {
-                blockchainExplainer.classList.add('tamper-animation');
-                block1.classList.add('tampered-block');
-                chains.forEach(chain => chain.classList.add('broken-chain'));
-                tamperText.style.opacity = '1';
-
-                setTimeout(() => {
-                    blockchainExplainer.classList.remove('tamper-animation');
-                    block1.classList.remove('tampered-block');
-                    chains.forEach(chain => chain.classList.remove('broken-chain'));
-                    tamperText.style.opacity = '0';
-                }, 4000);
-            });
+            }
             
             // --- Prototype Modal Logic ---
             const scanButton = document.getElementById('scan-button');
@@ -717,20 +730,20 @@
 
             const openModal = () => {
                 modal.classList.remove('hidden');
-                setTimeout(() => modalContent.classList.add('scale-100'), 10);
+                setTimeout(() => {
+                    if (modalContent) modalContent.classList.add('scale-100');
+                }, 10);
             };
 
             const closeModal = () => {
-                modalContent.classList.remove('scale-100');
+                if(modalContent) modalContent.classList.remove('scale-100');
                 setTimeout(() => modal.classList.add('hidden'), 300);
             };
 
-            scanButton.addEventListener('click', openModal);
-            closeModalButton.addEventListener('click', closeModal);
-            modal.addEventListener('click', (e) => {
-                if (e.target === modal) {
-                    closeModal();
-                }
+            if(scanButton) scanButton.addEventListener('click', openModal);
+            if(closeModalButton) closeModalButton.addEventListener('click', closeModal);
+            if(modal) modal.addEventListener('click', (e) => {
+                if (e.target === modal) closeModal();
             });
             
             // --- Certificate Modal Logic ---
@@ -743,15 +756,13 @@
             });
 
             const closeCertModal = () => certModal.classList.add('hidden');
-            closeCertModalButton.addEventListener('click', closeCertModal);
-            certModal.addEventListener('click', (e) => {
-                if (e.target === certModal) {
-                    closeCertModal();
-                }
+            if(closeCertModalButton) closeCertModalButton.addEventListener('click', closeCertModal);
+            if(certModal) certModal.addEventListener('click', (e) => {
+                if (e.target === certModal) closeCertModal();
             });
             
             // --- Gemini API Integration ---
-            const apiKey = ""; // Left empty for Canvas runtime injection
+            const apiKey = ""; 
             const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-05-20:generateContent?key=${apiKey}`;
 
             const askHerbButton = document.getElementById('ask-herb-button');
@@ -792,7 +803,7 @@
                 }
             }
             
-            askHerbButton.addEventListener('click', async () => {
+            if(askHerbButton) askHerbButton.addEventListener('click', async () => {
                 const question = herbQuestionInput.value.trim();
                 if (!question) {
                     herbAnswerDiv.innerText = "Please enter a question.";
@@ -808,7 +819,7 @@
                 hideLoading(askHerbButton);
             });
 
-            suggestRecipeButton.addEventListener('click', async () => {
+            if(suggestRecipeButton) suggestRecipeButton.addEventListener('click', async () => {
                 showLoading(suggestRecipeButton);
                 recipeSuggestionDiv.classList.add('hidden');
                 const prompt = "Generate a simple, healthy recipe using Ashwagandha powder. Provide a name, short description, ingredients, and instructions. Format with headings like **Name:**.";
@@ -818,7 +829,7 @@
                 hideLoading(suggestRecipeButton);
             });
 
-            generateStoryButton.addEventListener('click', async () => {
+            if(generateStoryButton) generateStoryButton.addEventListener('click', async () => {
                 showLoading(generateStoryButton);
                 const prompt = "Write a short, heartfelt story (100 words) about a farmer from the 'Aravalli Hills Herbal Cooperative' in Rajasthan, who is dedicated to traditional farming.";
                 const story = await callGemini(prompt);
@@ -826,69 +837,85 @@
                 hideLoading(generateStoryButton);
             });
 
-            // --- Team Role Selection Logic ---
+            // --- Team Role Selection Logic (No Firebase) ---
             const teamGrid = document.getElementById('team-grid');
             const teamMembers = ['Harshita', 'Charvi', 'Kritvi', 'Tarshit', 'Krishna', 'Ranveer'];
-            const roles = ['Blockchain', 'Frontend', 'Backend', 'UI/UX', 'Project Lead'];
+            const roles = {
+                'Project Lead': {
+                    description: 'Project ko manage karna, timeline banana, aur sabhi team members ke beech coordination sunishchit karna.',
+                    tech: 'Management Tools, Communication'
+                },
+                'Blockchain': {
+                    description: 'System ka core blockchain network aur smart contracts develop karna jo traceability ko secure karega.',
+                    tech: 'Hyperledger Fabric, Go/Node.js'
+                },
+                'Backend': {
+                    description: 'Server, API, aur database ko manage karna jo mobile app aur web portal ko blockchain se jodega.',
+                    tech: 'Node.js (Express), REST APIs'
+                },
+                'Frontend': {
+                    description: 'Consumer-facing web portal develop karna jahan se QR code scan karke details dekhi ja sakengi.',
+                    tech: 'HTML/CSS, JavaScript'
+                },
+                'Mobile App (Flutter)': {
+                    description: 'Kisanon ke liye offline-first mobile app banana, jisse woh aasani se harvest data record kar saken.',
+                    tech: 'Flutter, Dart'
+                },
+                'UI/UX': {
+                    description: 'Web aur mobile app dono ke liye ek aasan aur user-friendly design taiyar karna.',
+                    tech: 'Figma, User Research'
+                }
+            };
 
             const renderTeamCards = () => {
+                if (!teamGrid) return;
                 teamGrid.innerHTML = '';
                 teamMembers.forEach(name => {
                     const card = document.createElement('div');
-                    card.className = 'bg-white p-6 rounded-lg shadow-lg text-center';
+                    card.className = 'bg-white p-6 rounded-lg shadow-lg text-center transition-all duration-300';
+                    
+                    let options = '<option value="">Apna Role Chunein</option>';
+                    for (const role in roles) {
+                        options += `<option value="${role}">${role}</option>`;
+                    }
+
                     card.innerHTML = `
                         <img src="https://placehold.co/100x100/E2E8F0/4A5568?text=${name.charAt(0)}" alt="${name}" class="w-24 h-24 mx-auto rounded-full mb-4">
                         <h4 class="text-xl font-bold">${name}</h4>
-                        <div class="mt-4 flex flex-wrap justify-center gap-2" data-member="${name}">
-                            ${roles.map(role => `<button class="role-btn text-sm bg-white hover:bg-gray-100 text-gray-800 font-semibold py-1 px-3 border border-gray-300 rounded-full" data-role="${role}">${role}</button>`).join('')}
+                        <select class="role-select mt-4 w-full p-2 border rounded-md" data-member="${name}">
+                            ${options}
+                        </select>
+                        <div class="role-description mt-4 text-left p-4 bg-gray-50 rounded-md border" style="max-height: 0; opacity: 0; overflow: hidden;">
+                            <!-- Description will be populated here -->
                         </div>
                     `;
                     teamGrid.appendChild(card);
                 });
             };
+            
+            renderTeamCards();
 
-            const updateUIRoles = (teamRolesData) => {
-                teamMembers.forEach(name => {
-                    const memberData = teamRolesData.find(doc => doc.id === name);
-                    const selectedRole = memberData ? memberData.role : null;
-                    const buttons = document.querySelectorAll(`#team-grid [data-member="${name}"] .role-btn`);
-                    buttons.forEach(btn => {
-                        btn.classList.toggle('selected', btn.dataset.role === selectedRole);
-                    });
-                });
-            };
+            teamGrid.addEventListener('change', (e) => {
+                if (e.target.matches('.role-select')) {
+                    const role = e.target.value;
+                    const descriptionDiv = e.target.nextElementSibling;
 
-            async function saveRole(memberName, role) {
-                if (!db) {
-                    console.error("Firestore is not initialized.");
-                    return;
-                }
-                const docRef = doc(db, `/artifacts/${appId}/public/data/team_roles`, memberName);
-                try {
-                    await setDoc(docRef, { role: role }, { merge: true });
-                } catch (error) {
-                    console.error("Error saving role:", error);
-                }
-            }
-
-            if (db) {
-                 renderTeamCards();
-                const rolesCollectionRef = collection(db, `/artifacts/${appId}/public/data/team_roles`);
-                onSnapshot(rolesCollectionRef, (snapshot) => {
-                    const teamRolesData = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-                    updateUIRoles(teamRolesData);
-                });
-
-                teamGrid.addEventListener('click', (e) => {
-                    if (e.target.matches('.role-btn')) {
-                        const memberName = e.target.parentElement.dataset.member;
-                        const role = e.target.dataset.role;
-                        saveRole(memberName, role);
+                    if (role && roles[role]) {
+                        descriptionDiv.innerHTML = `
+                            <h5 class="font-bold mb-1">Zimmedariyan:</h5>
+                            <p class="text-sm mb-2">${roles[role].description}</p>
+                            <h5 class="font-bold mb-1">Kya Sikhna Hai:</h5>
+                            <p class="text-sm font-mono">${roles[role].tech}</p>
+                        `;
+                        descriptionDiv.style.maxHeight = '200px';
+                        descriptionDiv.style.opacity = '1';
+                    } else {
+                        descriptionDiv.innerHTML = '';
+                        descriptionDiv.style.maxHeight = '0';
+                        descriptionDiv.style.opacity = '0';
                     }
-                });
-            } else {
-                teamGrid.innerHTML = '<p class="text-center text-red-500 col-span-full">Could not connect to the database to load team roles.</p>';
-            }
+                }
+            });
         });
     </script>
 </body>
